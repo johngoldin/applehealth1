@@ -5,12 +5,12 @@ Version: 0.0.0.9000
 Author: John Goldin
 Maintainer: John Goldin <john.r.goldin@gmail.com>
 Description: Setup function to facilitate importing data from the
-Apple Health Export. In particular there are functions to
-help adjust to the time stamps in the Health Export to
-allow for movements across time zones and changes in daylight
-savings. To support adjustments for time zone, there are also
-function which use the TripIt API to get information about
-history of airline flights.
+    Apple Health Export. In particular there are functions to
+    help adjust to the time stamps in the Health Export to
+    allow for movements across time zones and changes in daylight
+    savings. To support adjustments for time zone, there are also
+    function which use the TripIt API to get information about
+    history of airline flights.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
