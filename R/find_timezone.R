@@ -35,7 +35,7 @@ local_to_sys_time <- function(datetime, timezone) {
 
 # I will be applying this function to nearly a million times so it's important
 # that it be vectorized and compiled. Vectorized is what really counts.
-UTC_to_clock_by_tz <- function(dt, time_zone) {
+exported_time_to_local <- function(dt, time_zone) {
   # adjust a vector of datetime to a specific time zone and report as though it were utc
   tz(dt) <- .sys.timezone    # make sure vector is set to my current local time zone
   utc <- with_tz(dt, tzone = "UTC")   # what is the datetime in terms of UTC
@@ -77,6 +77,8 @@ get_my_time_zone <- function(dt) {
       (dt <= as_datetime("2019-07-05 13:25:00")) ~  "Europe/London",
     (dt >= as_datetime("2019-08-28 06:30:00")) & # trip to Manchester
       (dt <= as_datetime("2019-09-10 12:40:00")) ~  "Europe/London",
+    (dt >= as_datetime("2020-01-28 20:52:00")) & # trip to RStudio in SF
+      (dt <= as_datetime("2020-02-04 18:17:00")) ~  "America/San_Francisco",
     TRUE ~ "America/New_York" # good old Eastern time, home sweet home
   )
   return(time_zone)

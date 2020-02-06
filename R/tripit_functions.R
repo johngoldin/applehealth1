@@ -39,25 +39,25 @@ GET_air <- function(trip_id) {
       )
     )
   # air_trip <-
-  #   atrip %>% map("AirObject") %>% map("Segment") %>% flatten()
+  #   atrip %>% purrr::map("AirObject") %>% purrr::map("Segment") %>% flatten()
   air_trip <- atrip[["AirObject"]][["Segment"]]
-  flights <- tibble(
+  flights <- dplyr::tibble(
     trip_id = trip_id,
     trip_start = atrip[["Trip"]][["start_date"]],
-    start_date = air_trip %>% map("StartDateTime") %>% map_chr("date"),
-    start_time =  air_trip %>% map("StartDateTime") %>% map_chr("time"),
-    start_timezone =  air_trip %>% map("StartDateTime") %>% map_chr("timezone"),
-    start_city = air_trip %>%  map_chr("start_city_name"),
-    end_date = air_trip %>% map("EndDateTime") %>% map_chr("date"),
-    end_time =  air_trip %>% map("EndDateTime") %>% map_chr("time"),
-    end_timezone =  air_trip %>% map("EndDateTime") %>% map_chr("timezone"),
-    end_city = air_trip %>%  map_chr("end_city_name"),
-    airline = air_trip %>%  map_chr("marketing_airline"),
-    code = air_trip %>%  map_chr("marketing_airline_code"),
-    number = air_trip %>%  map_chr("marketing_flight_number"),
-    aircraft = air_trip %>%  map_chr("aircraft_display_name"),
-    distance = air_trip %>%  map_chr("distance"),
-    duration = air_trip %>% map_chr("duration")
+    start_date = air_trip %>% purrr::map("StartDateTime") %>% map_chr("date"),
+    start_time =  air_trip %>% purrr::map("StartDateTime") %>% map_chr("time"),
+    start_timezone =  air_trip %>% purrr::map("StartDateTime") %>% map_chr("timezone"),
+    start_city = air_trip %>%  purrr::map_chr("start_city_name"),
+    end_date = air_trip %>% purrr::map("EndDateTime") %>% map_chr("date"),
+    end_time =  air_trip %>% purrr::map("EndDateTime") %>% map_chr("time"),
+    end_timezone =  air_trip %>% purrr::map("EndDateTime") %>% map_chr("timezone"),
+    end_city = air_trip %>%  purrr::map_chr("end_city_name"),
+    airline = air_trip %>%  purrr::map_chr("marketing_airline"),
+    code = air_trip %>%  purrr::map_chr("marketing_airline_code"),
+    number = air_trip %>%  purrr::map_chr("marketing_flight_number"),
+    aircraft = air_trip %>%  purrr::map_chr("aircraft_display_name"),
+    distance = air_trip %>%  purrr::map_chr("distance"),
+    duration = air_trip %>% purrr::map_chr("duration")
   )
 }
 GET_air_mem <- memoise::memoise(GET_air)
