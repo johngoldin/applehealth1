@@ -23,6 +23,15 @@ local_to_sys_time <- function(datetime, timezone) {
   xt
 }
 
+local_to_utc <- function(dt, timezone) {
+  # UTC of this local time. Note: not vectorized
+  if (is.character(dt)) dt <- as_datetime(dt)
+  tz(dt) <- timezone
+  xt <- with_tz(dt, "UTC")
+  tz(xt) <- "UTC"
+  return(xt)
+}
+
 # For example, flight to Paris on 2014-10-08 leaves at
 # 20:45 NY time, duration of flight is 6 hours 40 minutes. Therefore
 # arrival is scheduled as 03:25 the next morning NY time which is
@@ -35,16 +44,22 @@ local_to_sys_time <- function(datetime, timezone) {
 
 # I will be applying this function to nearly a million times so it's important
 # that it be vectorized and compiled. Vectorized is what really counts.
-exported_time_to_local <- function(dt, time_zone, tz_of_export = Sys.timezone()) {
-  # adjust a vector of datetime to a specific time zone and report as though it were utc
-  tz(dt) <- tz_of_export    # make sure vector is set to my current local time zone
-  # with_tz is the key lubridate function that I am relying on. Handles daylight savings as well.
+
+utc_dt_to_local <- function(dt, time_zone) {
+  # Adjust a vector of datetime from UTC
+  # to a particular time_zone that that applies to the whole vector.
+  tz(dt) <- "UTC"
   local <- with_tz(dt, time_zone) # now adjust utc to the time zone I want
-  tz(local) <- "UTC"    # treat everything as if it were UTC, even if it isn't, because the whole vector has to be one arbitrary time zone when I bind rows together
-  # Although the vector is marked as UTC, I will treat the hour as being whatever the local
+  tz(local) <- "UTC"
+  # I mark the vector as UTC because I will be row_bind-ing vectors
+  # together and all need to have the same time zone attribute.
+  # Although the vector is marked as UTC,
+  # in the end I will treat the hour as being whatever the local
   # time was that I experienced then.
   return(local)
 }
+
+
 
 raw_to_local <- function(datetime, timezone) {
   if (is.character((datetime))) datetime = ymd_hms(datetime)

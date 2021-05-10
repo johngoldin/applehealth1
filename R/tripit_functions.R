@@ -1,11 +1,13 @@
 
 library(memoise)
 
-auth <- httr::authenticate(
-  "john.r.goldin@gmail.com",
-  rstudioapi::askForPassword("tripit password"),
-  "basic"
-)
+if (rlang::is_interactive()) {
+  auth <- httr::authenticate(
+    "john.r.goldin@gmail.com",
+    rstudioapi::askForPassword("tripit password"),
+    "basic"
+  )
+}
 
 GET_tripit <- function(url, query = list(), ...) {
   default_query <- list(
